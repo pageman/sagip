@@ -1,0 +1,36 @@
+{% extends "sagip_main/base.html" %}
+{% load url from future %}
+
+{% block script %}
+<script type="text/javascript">
+function openPopup(url) {
+    var w = 700;
+    var h = 500;
+    var left = 100;
+    var top = 100;
+
+    var settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
+    url += "?next={% url 'login_popup_close' %}";
+    window.open(url, name, settings)
+}
+
+</script>
+
+{% endblock %}
+
+{% block heading %}Login using any of the following methods{% endblock %}
+
+{% block content %}
+
+
+<br/>
+
+<div>
+ 
+  <ul>
+      <li><a rel="nofollow" href="{% url "socialauth_begin" "twitter" %}">Twitter</a></li>
+
+  </ul>
+</div>
+
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "sagip_main/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block main_content %}
+  <div class="container-full">
+	  
+    <div class="row">
+
+      <div id="far1-clouds" class="far1-clouds stage"></div>
+
+			<div class="alert alert-dismissable alert-danger alert-message">
+  				<button type="button" class="close" data-dismiss="alert">×</button>
+  				<p><strong>Oopps!</strong> Please login using either you Facebook or Twitter account.</p>
+			</div>
+			
+      <div class="col-lg-12 text-center">
+     
+     		
+	   
+        <p class="embossed-text" id="title-main">
+        <b>S&nbsp;&nbsp;A&nbsp;&nbsp;G&nbsp;&nbsp;I&nbsp;&nbsp;P</b></p><br>
+
+			
+		  
+        <br>
+
+        <div id="mid-clouds" class="mid-clouds stage"></div><br>
+
+        <div>
+          <br>
+          <br>
+          <br>
+          <br>
+
+          <div class="row" align="center">
+            <table class="text-center v-center">
+              <tr>
+                <td><img id="shadow-div" class="box-icon" src="{% static 'sagip_main/img/ocean.jpg' %}" height="150px" width="150px"></td>
+
+                <td>&nbsp;&nbsp;&nbsp;<img id="shadow-div" class="box-icon" src="{% static 'sagip_main/img/land.jpg' %}" height="150px" width="150px"></td>
+
+                <td>&nbsp;&nbsp;&nbsp;<img id="shadow-div" class="box-icon" src="{% static 'sagip_main/img/atmosphere.jpg' %}" height="150px" width="150px"></td>
+
+                <td>
+                  <div id="nearer-clouds" class="nearer-clouds stage"></div>
+                </td>
+              </tr>
+            </table>
+          </div><br>
+          <br>
+          <br>
+          <div class="row">
+            <div id="near-clouds" class="near-clouds stage"></div>
+          </div>
+        </div><!-- /row -->
+{% endblock %}
+
+{% block modal_div %}
+
+<div class="modal fade" id="add_data_temp" name="add_data_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Share Temperature Data</h4>
+      </div>
+		  <div class="modal-body">
+		  <p>
+		  	<form class="navbar-form navbar-left" action="{% url 'contrib_data' %}" method="post">
+				{% csrf_token %}
+	
+					<input type="hidden" name="name" id="name" value="temperature">
+					
+					<input type="text" class="form-control col-lg-8" placeholder="Enter Latitude" id="geo_lat" name="geo_lat" value="">
+					
+					 <input type="text" class="form-control col-lg-8" placeholder="Enter Longitude" id="geo_long" name="geo_long" value="">
+					 <input type="text" class="form-control col-lg-8" placeholder="Enter value" id="value" name="value" value="">
+					 <button type="submit" class="btn btn-primary" name="submitUpdate" value="updateForm">Submit</button>
+				</form>
+				</p>
+			<br />
+			<br />
+			<br />
+		  </div>
+		<div class="modal-footer">
+		</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="add_data_rain" name="add_data_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Share Rainfall/Precipitation Data</h4>
+      </div>
+		  <div class="modal-body">
+		  <p>
+		  	<form class="navbar-form navbar-left" action="{% url 'contrib_data' %}" method="post">
+				{% csrf_token %}
+					
+					<input type="hidden" name="name" id="name" value="rainfall">
+					
+					<input type="text" class="form-control col-lg-8" placeholder="Enter Latitude" id="geo_lat" name="geo_lat" value="">
+					
+					 <input type="text" class="form-control col-lg-8" placeholder="Enter Longitude" id="geo_long" name="geo_long" value="">
+					 <input type="text" class="form-control col-lg-8" placeholder="Enter value" id="value" name="value" value="">
+					 <button type="submit" class="btn btn-primary" name="submitUpdate" value="updateForm">Submit</button>
+				</form>
+				</p>
+			<br />
+			<br />
+			<br />
+		  </div>
+		<div class="modal-footer">
+		</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="add_data_humi" name="add_data_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Share Humidity Data</h4>
+      </div>
+		  <div class="modal-body">
+			<p>
+		  	<form class="navbar-form navbar-left" action="{% url 'contrib_data' %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="name" id="name" value="humididty">
+					<input type="text" class="form-control col-lg-8" placeholder="Enter Latitude" id="geo_lat" name="geo_lat" value="">
+					
+					 <input type="text" class="form-control col-lg-8" placeholder="Enter Longitude" id="geo_long" name="geo_long" value="">
+					 <input type="text" class="form-control col-lg-8" placeholder="Enter value" id="value" name="value" value="">
+					 <button type="submit" class="btn btn-primary" name="submitUpdate" value="updateForm">Submit</button>
+				</form>
+			</p>
+			<br />
+			<br />
+			<br />
+		  </div>
+		<div class="modal-footer">
+		</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="add_data_atmo" name="add_data_modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Share CO2 Emissions</h4>
+      </div>
+		  <div class="modal-body">
+		 <p>
+		  	<form class="navbar-form navbar-left" action="{% url 'contrib_data' %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="name" id="name" value="carbon">
+					<input type="text" class="form-control col-lg-8" placeholder="Enter Latitude" id="geo_lat" name="geo_lat" value="">
+					
+					 <input type="text" class="form-control col-lg-8" placeholder="Enter Longitude" id="geo_long" name="geo_long" value="">
+					 <input type="text" class="form-control col-lg-8" placeholder="Enter value" id="value" name="value" value="">
+					 <button type="submit" class="btn btn-primary" name="submitUpdate" value="updateForm">Submit</button>
+				</form>
+				</p>
+			<br />
+			<br />
+			<br />
+		  </div>
+		<div class="modal-footer">
+		</div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
