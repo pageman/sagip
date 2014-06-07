@@ -53,6 +53,7 @@ class DataBits (models.Model):
 	geo_lat = models.DecimalField(max_digits=10, decimal_places=4)
 	geo_long = models.DecimalField(max_digits=10, decimal_places=4)
 	contrib_user = models.ForeignKey(User)
+#	time_added = models.DateField('Date Added', blank=False, null=False)
 	
 	def get_map_label(self):
 		if value:

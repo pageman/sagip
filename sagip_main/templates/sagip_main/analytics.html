@@ -37,6 +37,19 @@
    <script src="{% static 'sagip_main/js/leaflet.label.js' %}" type="text/javascript"></script>
    <script src="{% static 'sagip_main/js/jquery.spritely.js' %}" type="text/javascript"></script>
    <script src="{% static 'sagip_main/js/leaflet.awesome-markers.min.js' %}"></script>
+   
+   <script src="{% static 'sagip_main/data/exp_100yrisohyetsutm51.js' %}"></script>
+		
+		<script src="{% static 'sagip_main/data/exp_10yrisohyetsutm51.js' %}"></script>
+		
+		<script src="{% static 'sagip_main/data/exp_25yrisohyetsutm51.js' %}"></script>
+		
+		<script src="{% static 'sagip_main/data/exp_2yrisohyetsutm51.js' %}"></script>
+		
+		<script src="{% static 'sagip_main/data/exp_50yrisohyetsutm51.js' %}"></script>
+		
+		<script src="{% static 'sagip_main/data/exp_5yrisohyetsutm51.js' %}"></script>
+		
    <script type="text/javascript">
           $(document).ready(function() {
                 $('#far-clouds').pan({fps: 30, speed: 0.7, dir: 'left', depth: 30});
@@ -99,6 +112,113 @@ function init() {
     icon: 'flag',
     markerColor: 'darkgreen'
   });
+  
+  function pop_100yrisohyetsutm51(feature, layer) {
+				var popupContent = '<table><tr><th>attribute</th><th>value</th></tr><tr><td>ENTITY</td><td>' + feature.properties.ENTITY + '</td></tr><tr><td>LAYER</td><td>' + feature.properties.LAYER + '</td></tr><tr><td>THICKNESS</td><td>' + feature.properties.THICKNESS + '</td></tr><tr><td>COLOR</td><td>' + feature.properties.COLOR + '</td></tr><tr><td>PRECIP_mm</td><td>' + feature.properties.PRECIP_mm + '</td></tr></table>';
+				layer.bindPopup(popupContent);
+			}
+  var exp_100yrisohyetsutm51JSON = new L.geoJson(exp_100yrisohyetsutm51,{
+				onEachFeature: pop_100yrisohyetsutm51,
+				style: function (feature) {
+					return {weight: feature.properties.radius_qgis2leaf,
+							color: feature.properties.color_qgis2leaf,
+							opacity: feature.properties.transp_qgis2leaf,
+							fillOpacity: feature.properties.transp_fill_qgis2leaf};
+					}
+				});
+		
+					//add comment sign to hide this layer on the map in the initial view.
+					exp_100yrisohyetsutm51JSON.addTo(map);
+			function pop_10yrisohyetsutm51(feature, layer) {
+				var popupContent = '<table><tr><th>attribute</th><th>value</th></tr><tr><td>ENTITY</td><td>' + feature.properties.ENTITY + '</td></tr><tr><td>LAYER</td><td>' + feature.properties.LAYER + '</td></tr><tr><td>THICKNESS</td><td>' + feature.properties.THICKNESS + '</td></tr><tr><td>COLOR</td><td>' + feature.properties.COLOR + '</td></tr><tr><td>PRECIP_mm</td><td>' + feature.properties.PRECIP_mm + '</td></tr></table>';
+				layer.bindPopup(popupContent);
+			}
+					
+			var exp_10yrisohyetsutm51JSON = new L.geoJson(exp_10yrisohyetsutm51,{
+				onEachFeature: pop_10yrisohyetsutm51,
+				style: function (feature) {
+					return {weight: feature.properties.radius_qgis2leaf,
+							color: feature.properties.color_qgis2leaf,
+							opacity: feature.properties.transp_qgis2leaf,
+							fillOpacity: feature.properties.transp_fill_qgis2leaf};
+					}
+				});
+			
+			
+					//add comment sign to hide this layer on the map in the initial view.
+					exp_10yrisohyetsutm51JSON.addTo(map);
+			function pop_25yrisohyetsutm51(feature, layer) {
+				var popupContent = '<table><tr><th>attribute</th><th>value</th></tr><tr><td>ENTITY</td><td>' + feature.properties.ENTITY + '</td></tr><tr><td>LAYER</td><td>' + feature.properties.LAYER + '</td></tr><tr><td>THICKNESS</td><td>' + feature.properties.THICKNESS + '</td></tr><tr><td>COLOR</td><td>' + feature.properties.COLOR + '</td></tr><tr><td>PRECIP_mm</td><td>' + feature.properties.PRECIP_mm + '</td></tr></table>';
+				layer.bindPopup(popupContent);
+			}
+					
+			var exp_25yrisohyetsutm51JSON = new L.geoJson(exp_25yrisohyetsutm51,{
+				onEachFeature: pop_25yrisohyetsutm51,
+				style: function (feature) {
+					return {weight: feature.properties.radius_qgis2leaf,
+							color: feature.properties.color_qgis2leaf,
+							opacity: feature.properties.transp_qgis2leaf,
+							fillOpacity: feature.properties.transp_fill_qgis2leaf};
+					}
+				});
+			
+			
+					//add comment sign to hide this layer on the map in the initial view.
+					exp_25yrisohyetsutm51JSON.addTo(map);
+			function pop_2yrisohyetsutm51(feature, layer) {
+				var popupContent = '<table><tr><th>attribute</th><th>value</th></tr><tr><td>ENTITY</td><td>' + feature.properties.ENTITY + '</td></tr><tr><td>LAYER</td><td>' + feature.properties.LAYER + '</td></tr><tr><td>THICKNESS</td><td>' + feature.properties.THICKNESS + '</td></tr><tr><td>COLOR</td><td>' + feature.properties.COLOR + '</td></tr><tr><td>PRECIP_mm</td><td>' + feature.properties.PRECIP_mm + '</td></tr></table>';
+				layer.bindPopup(popupContent);
+			}
+					
+			var exp_2yrisohyetsutm51JSON = new L.geoJson(exp_2yrisohyetsutm51,{
+				onEachFeature: pop_2yrisohyetsutm51,
+				style: function (feature) {
+					return {weight: feature.properties.radius_qgis2leaf,
+							color: feature.properties.color_qgis2leaf,
+							opacity: feature.properties.transp_qgis2leaf,
+							fillOpacity: feature.properties.transp_fill_qgis2leaf};
+					}
+				});
+			
+			
+					//add comment sign to hide this layer on the map in the initial view.
+					exp_2yrisohyetsutm51JSON.addTo(map);
+			function pop_50yrisohyetsutm51(feature, layer) {
+				var popupContent = '<table><tr><th>attribute</th><th>value</th></tr><tr><td>ENTITY</td><td>' + feature.properties.ENTITY + '</td></tr><tr><td>LAYER</td><td>' + feature.properties.LAYER + '</td></tr><tr><td>THICKNESS</td><td>' + feature.properties.THICKNESS + '</td></tr><tr><td>COLOR</td><td>' + feature.properties.COLOR + '</td></tr><tr><td>PRECIP_mm</td><td>' + feature.properties.PRECIP_mm + '</td></tr></table>';
+				layer.bindPopup(popupContent);
+			}
+					
+			var exp_50yrisohyetsutm51JSON = new L.geoJson(exp_50yrisohyetsutm51,{
+				onEachFeature: pop_50yrisohyetsutm51,
+				style: function (feature) {
+					return {weight: feature.properties.radius_qgis2leaf,
+							color: feature.properties.color_qgis2leaf,
+							opacity: feature.properties.transp_qgis2leaf,
+							fillOpacity: feature.properties.transp_fill_qgis2leaf};
+					}
+				});
+			
+			
+					//add comment sign to hide this layer on the map in the initial view.
+					exp_50yrisohyetsutm51JSON.addTo(map);
+			function pop_5yrisohyetsutm51(feature, layer) {
+				var popupContent = '<table><tr><th>attribute</th><th>value</th></tr><tr><td>ENTITY</td><td>' + feature.properties.ENTITY + '</td></tr><tr><td>LAYER</td><td>' + feature.properties.LAYER + '</td></tr><tr><td>THICKNESS</td><td>' + feature.properties.THICKNESS + '</td></tr><tr><td>COLOR</td><td>' + feature.properties.COLOR + '</td></tr><tr><td>PRECIP_mm</td><td>' + feature.properties.PRECIP_mm + '</td></tr></table>';
+				layer.bindPopup(popupContent);
+			}
+					
+			var exp_5yrisohyetsutm51JSON = new L.geoJson(exp_5yrisohyetsutm51,{
+				onEachFeature: pop_5yrisohyetsutm51,
+				style: function (feature) {
+					return {weight: feature.properties.radius_qgis2leaf,
+							color: feature.properties.color_qgis2leaf,
+							opacity: feature.properties.transp_qgis2leaf,
+							fillOpacity: feature.properties.transp_fill_qgis2leaf};
+					}
+				});
+			
+			
+					//add comment sign to hide this layer on the map in the initial view.
+					exp_5yrisohyetsutm51JSON.addTo(map);
 
     {{layers}}
 

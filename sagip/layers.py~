@@ -10,13 +10,13 @@ def get_layers_by_name():
 	for layer_name in layer_names_holder:
 		layer_names.append(str(layer_name['name']))
 	
-	print layer_names
 	
 	for name in layer_names:
 		layer = "var "+str(name)+" = L.layerGroup([" 
 		points = DataBits.objects.filter(name=str(name))
 		
 		for point in points:
+			temp_point=''
 			icon = ''
 			if point.name == "temperature": 
 				icon = "tempMarker"
@@ -27,9 +27,12 @@ def get_layers_by_name():
 			else: 
 				icon = "rainMarker"
 			
-			temp_point = "L.marker(["+str(point.geo_lat)+","+str(point.geo_long)+"]).bindLabel('"+str(point.value)+"', { noHide: true,icon:"+icon+"})"
+			if point.category is 'climate':
+				temp_point = "L.marker(["+str(point.geo_lat)+","+str(point.geo_long)+"],{icon:"+icon+"}).bindLabel('"+str(point.value)+"', { noHide: true })"
+			else:
+				temp_point = "L.marker(["+str(point.geo_lat)+","+str(point.geo_long)+"],{icon:"+icon+"}).bindLabel('"+str(point.unit)+"', { noHide: true })"
 			layer += temp_point+","
-			
+
 		layer += "]);"
 		layers += layer
 

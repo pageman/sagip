@@ -154,8 +154,8 @@ function init() {
 			
 		
         <ul class="nav navbar-nav">
-          <li><a href="">View</a></li>
-	      <li><a href="" class="dropdown-toggle" data-toggle="dropdown">Share</a>
+          <li><a href="{% url 'view_map' %}">View</a></li>
+	      <li><a href="" class="dropdown-toggle" data-toggle="dropdown">Share <b class="caret"></b></a>
 		        <ul class="dropdown-menu">
 		          <li><a href="{% url 'climate' %}">Climate</a></li>
 		          <li><a href="{% url 'infra' %}">Infrastructure</a></li>

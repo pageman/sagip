@@ -37,6 +37,7 @@
    <script src="{% static 'sagip_main/js/leaflet.label.js' %}" type="text/javascript"></script>
    <script src="{% static 'sagip_main/js/jquery.spritely.js' %}" type="text/javascript"></script>
    <script src="{% static 'sagip_main/js/leaflet.awesome-markers.min.js' %}"></script>
+   <script src="{% static 'sagip_main/js/Leaflet.Coordinates-0.1.3.min.js' %}" type="text/javascript"></script>
    <script type="text/javascript">
           $(document).ready(function() {
                 $('#far-clouds').pan({fps: 30, speed: 0.7, dir: 'left', depth: 30});
@@ -99,13 +100,18 @@ function init() {
     icon: 'flag',
     markerColor: 'darkgreen'
   });
+  
+  var defaultMarker = L.AwesomeMarkers.icon({
+    icon: 'flag',
+    markerColor: 'blue'
+  });
 
     {{layers}}
 
     //controls
     var layerControl = L.control.layers(
     		{//base layers
-    			"Points": temperature.addTo(map)
+    			"Base Map": stamen
     			},
     		{ //these are the checkbox layers
     			{% for layer_name in layer_names %}
@@ -126,7 +132,18 @@ function init() {
 						position: 'bottomright'
 		
 						}).addTo(map)
-   
+   var coordControl = L.control.coordinates({
+        			crs: L.CRS.EPSG4326,
+    				position:"bottomleft", //optional default "bootomright"
+    				decimals:2, //optional default 4
+    				decimalSeperator:".", //optional default "."
+    				labelTemplateLat:"Latitude: {y}", //optional default "Lat: {y}"
+    				labelTemplateLng:"Longitude: {x}", //optional default "Lng: {x}"
+    				enableUserInput:true, //optional default true
+    				useDMS:false, //optional default false
+    				useLatLngOrder: true //ordering of labels, default false-> lng-lat
+        }).addTo(map);
+  
   }
 
   </script>
@@ -221,85 +238,155 @@ function init() {
 			<div class="panel panel-primary col-lg-4 form-box">
 				<img src="{% static 'sagip_main/img/radar.gif' %}" class="sagip col-lg-offset-2" >
 				<span id="form_panel">S A G I P </span>
-				<div class="panel-body">
+				<div class="panel-body" style="margin-top:-10px">
 						<img src="{% static 'sagip_main/img/drought.jpg' %}" class="bilog-na-maliit col-lg-offset-3" >
 						<span class="label label-warning">Infrastructure</span>
-					<form class="form-horizontal">
+					<form class="form-horizontal" action="{% url 'infra'  %}" method="post">
+						{% csrf_token %}
 						  <fieldset>
 							<div class="form-group">
-								<label for="temp" class="col-lg-4 control-label">Temperature:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="temp" placeholder="C">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Latitude">
-								</div>
-								
-							</div>
-							<div class="form-group">
-								<label for="temp" class="col-lg-4 control-label">Rainfall:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="temp" placeholder="mm">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Latitude">
-								</div>
-								
-							</div>
-							<div class="form-group">
-								<label for="temp" class="col-lg-4 control-label">Humidity:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="temp" placeholder="Hg">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Latitude">
-								</div>
-								
-							</div>
-							<div class="form-group">
-								<label for="temp" class="col-lg-4 control-label">Typhoon:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 0px 0px 0px 0px;">
-									<input type="text" class="form-control" id="temp" placeholder="Signal" style="padding: 2px 2px 2px 2px;">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Latitude">
+								<label for="road" class="col-lg-4 control-label">Road:&nbsp;&nbsp;&nbsp;</label>
+								<div class="well col-lg-8" id="road" style="padding: 2px 2px 2px 2px">
+									
+										
+											<div class="checkbox col-lg-4">
+												<label>
+												<input type="checkbox" id="road_block" name="road_block" value="road block"> Block
+												</label>
+											</div>
+										
+										
+										
+											<div class="checkbox col-lg-8">
+												<label>
+												<input type="checkbox" id="road_re" name="road_re" value="Road Reroute/Alt Route"> Reroute/Alt Route
+												</label>
+											</div>
+										
+											<div class="checkbox col-lg-4">
+												<label>
+												<input type="checkbox" id="road_acc" name="road_acc" value="road accident"> Accident
+												</label>
+											</div>
+										
+											<div class="checkbox col-lg-8">
+												<label>
+												<input type="checkbox" id="road_cons" name="road_cons" value="Road Construction"> Construction
+												</label>
+											</div>
+										
+											<div class="col-lg-6" style="padding: 2px 2px 0 0px;">
+												<input type="text" class="form-control" id="road_long" name="road_long" placeholder="Longitude">
+											</div>
+											<div class="col-lg-6" style="padding: 2px 2px 0 2px;">
+												<input type="text" class="form-control" id="road_lat" name="road_lat" placeholder="Latitude">
+											</div>
+										
 								</div>
 								
 							</div>
+							<div class="form-group" style="margin-top:-10px;">
+								<label for="road" class="col-lg-4 control-label">Railway:&nbsp;&nbsp;&nbsp;</label>
+								<div class="well col-lg-8" id="road" style="padding: 2px 2px 2px 2px">
+									
+										
+											<div class="checkbox col-lg-4">
+												<label>
+												<input type="checkbox" id="rail_acc" name="rail_acc" value="Railway Accident"> Accident
+												</label>
+											</div>
+										
+										
+										
+											<div class="checkbox col-lg-8">
+												<label>
+												<input type="checkbox" id="rail_cols" name="rail_cols" value="railway collision"> Collision
+												</label>
+											</div>
+										
+											<div class="checkbox col-lg-10">
+												<label>
+												<input type="checkbox" id="rail_mal" name="rail_mal" value="Railway Malfunction"> Malfunction
+												</label>
+											</div>
+
+											<div class="col-lg-6" style="padding: 2px 2px 0 0px;">
+												<input type="text" class="form-control" id="rail_long" name="rail_long" placeholder="Longitude">
+											</div>
+											<div class="col-lg-6" style="padding: 2px 2px 0 2px;">
+												<input type="text" class="form-control" id="rail_lat" name="rail_lat" placeholder="Latitude">
+											</div>
+										
+								</div>
 							<div class="form-group">
-								<label for="temp" class="col-lg-4 control-label">Tsunami:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="temp" placeholder="Level" style="padding: 2px 2px 2px 2px;">
+								<label for="road" class="col-lg-4 control-label">Airport:&nbsp;&nbsp;&nbsp;</label>
+								<div class="well col-lg-7" id="road" style="padding: 2px 2px 2px 2px">
+									
+										
+											<div class="checkbox col-lg-4">
+												<label>
+												<input type="checkbox" id="air_flight" name="air_flight" value="Delayed Flight"> Delayed Flight
+												</label>
+											</div>
+
+											<div class="checkbox col-lg-8">
+												<label>
+												<input type="checkbox" id="air_can" name="air_can" value="Cancelled Flight"> Cancelled Flight
+												</label>
+											</div>
+										
+											<div class="checkbox col-lg-4">
+												<label>
+												<input type="checkbox" id="air_acc" name="air_acc" value="Accident"> Accident
+												</label>
+											</div>
+										
+											<div class="col-lg-6" style="padding: 2px 2px 0 0px;">
+												<input type="text" class="form-control" id="air_long" name="air_long" placeholder="Longitude">
+											</div>
+											<div class="col-lg-6" style="padding: 2px 2px 0 2px;">
+												<input type="text" class="form-control" id="air_lat" name="air_lat" placeholder="Latitude">
+											</div>
+										
 								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Latitude">
-								</div>
-							</div>
 							<div class="form-group">
-								<label for="temp" class="col-lg-4 control-label">Earthquake:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="temp" placeholder="Intensity" style="padding: 2px 2px 2px 2px;">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" id="temp" placeholder="Latitude">
+								<label for="road" class="col-lg-4 control-label">Seaport:&nbsp;&nbsp;&nbsp;</label>
+								<div class="well col-lg-7" id="road" style="padding: 2px 2px 2px 2px">
+									
+										
+											<div class="checkbox col-lg-4">
+												<label>
+												<input type="checkbox" id="sea_block" name="sea_block" value="seaport block"> Block
+												</label>
+											</div>
+										
+										
+										
+											<div class="checkbox col-lg-8">
+												<label>
+												<input type="checkbox" id="sea_re" name="sea_re" value="Seaport Reroute/Alt Route"> Reroute/Alt Route
+												</label>
+											</div>
+										
+											<div class="checkbox col-lg-4">
+												<label>
+												<input type="checkbox" id="sea_mal" name="sea_mal" value="Seaport Malfunction"> Malfunction
+												</label>
+											</div>
+										
+											<div class="checkbox col-lg-8">
+												<label>
+												<input type="checkbox" id="sea_cols" name="sea_cols" value="sea collision"> Collision
+												</label>
+											</div>
+										
+											<div class="col-lg-6" style="padding: 2px 2px 0 0px;">
+												<input type="text" class="form-control" id="sea_long" name="sea_long" placeholder="Longitude">
+											</div>
+											<div class="col-lg-6" style="padding: 2px 2px 0 2px;">
+												<input type="text" class="form-control" id="sea_lat" name="sea_lat" placeholder="Latitude">
+											</div>
+										
 								</div>
 							<div class="row"></div>
 							<br /><br />
