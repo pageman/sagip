@@ -1,0 +1,224 @@
+{% load staticfiles %}{% load firstof from future %} 
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+	<title>SAGIP</title>
+<!--	<link rel="stylesheet" media="screen" type="text/css" href="{% static 'sagip_main/css/style.css' %}" />-->
+	<link href="{% static 'sagip_main/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'sagip_main/css/bootstrap-theme.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'sagip_main/css/my.css' %}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="{% static 'sagip_main/js/jquery.min.js' %}"></script>
+
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    
+    <link href="{% static 'sagip_main/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'sagip_main/css/my.css' %}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{% static 'sagip_main/css/leaflet.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'sagip_main/css/leaflet.label.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'sagip_main/css/styles.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'sagip_main/css/Leaflet.Coordinates-0.1.3.css' %}" type="text/css"'>
+<link rel="stylesheet" href="{% static 'sagip_main/css/leaflet.awesome-markers.css' %}">
+
+
+
+   <!--[if lt IE 9]>
+                        <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+                <![endif]-->
+   
+  <!--[if lte IE 8]><link rel="stylesheet" href="http://leaflet.cloudmade.com/dist/leaflet.ie.css" /><![endif]-->
+   <script type="text/javascript" src="{% static 'sagip_main/js/leaflet.js' %}"></script>
+   <script type="text/javascript" src="{% static 'sagip_main/js/jquery.min.js' %}"></script>
+   <script type="text/javascript" src="{% static 'sagip_main/js/jquery.spritely.js' %}"></script>
+   <script type="text/javascript" src="{% static 'sagip_main/js/l.ellipse.js' %}"></script>
+   
+   <script src="{% static 'sagip_main/js/Leaflet.Coordinates-0.1.3.min.js' %}" type="text/javascript"></script>
+   <script src="{% static 'sagip_main/js/leaflet.label.js' %}" type="text/javascript"></script>
+   <script src="{% static 'sagip_main/js/jquery.spritely.js' %}" type="text/javascript"></script>
+   <script src="{% static 'sagip_main/js/leaflet.awesome-markers.min.js' %}"></script>
+    
+  </head>
+
+  <body style="background-color:black;">
+   
+   <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'home' %}" id="form_panel" style="margin-top:-10px;">S A G I P</a>
+      </div>
+
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <form class="navbar-form navbar-left" action="{% url 'home' %}" method="post">
+          {% csrf_token %} 
+          <input type="text" class="form-control col-lg-8" placeholder="Search" id="searched" name="searched" value="">
+        </form>
+
+        <ul class="nav navbar-nav">
+          <li><a href="">View</a></li>
+	      <li><a href="" class="dropdown-toggle" data-toggle="dropdown">Share <b class="caret"></b></a>
+		        <ul class="dropdown-menu">
+		          <li><a href="{% url 'climate' %}">Climate</a></li>
+		          <li><a href="{% url 'infra' %}">Infrastructure</a></li>
+		          <li ><a href="{% url 'disaster' %}">Disaster Response and Management</a></li>
+		    	</ul>
+		    </li>
+		 </ul>
+		 {% if not_user %}
+			<div class="alert alert-dismissable alert-danger alert-message col-lg-4">
+  				<button type="button" class="close" data-dismiss="alert">×</button>
+  				<p><small><strong>Oopps!</strong> Please login using either you Facebook or Twitter account.</small></p>
+			</div>
+        {% endif %}
+        <ul class="nav navbar-nav navbar-right">
+          <li>{% if user.is_active %}
+
+            <div id="user-tools">
+              {% trans 'Welcome,' %} <strong>{{user.get_full_name|default:user.username }}</strong>.
+              {% block userlinks %} {% url 'django-admindocs-docroot' as docsroot %} 
+              
+              	{% if docsroot %} <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> / 
+              	{% endif %} 
+              
+              	{% if user.has_usable_password %} <a href="{% url 'admin:password_change' %}">
+              		Change Password</a> / 
+              	{% endif %} 
+              
+              <a href="{% url 'auth:logout' %}?next={{ request.path }}">
+              Log Out</a> {% endblock %}
+
+              <p><i><small>Today is {{ date_now}}</small></i></p>
+              {% else %}
+
+              <div id="user-tools">
+                {% trans 'Welcome, Guest | ' %} 
+                {% block guestlinks %} 
+                	<i class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Login</a></i>
+
+                <ul class="dropdown-menu">
+                  <li><i class="dropdown"><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
+                  Using Facebook</a></i></li>
+
+                  <li><i class="dropdown">
+                  		<a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
+                  Using Google</a></i></li>
+
+                  <li><i class="dropdown"><a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">
+                  Using Twitter</a></i></li>
+                </ul>
+                {% endblock %}
+
+                <p><i><small>Today is {{ date_now}}</small></i></p>
+              </div>
+            </div>
+           {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+    <div id="page" class="form-box">
+	  
+	   <div class="col-lg-12 text-center">
+     
+     		
+	   
+        <p class="embossed-text" id="title-main">
+        <img src="{% static 'sagip_main/img/radar.gif' %}" class="sagip col-lg-offset-2" style="width:150px;height:150px;margin-right:-180px;padding-left:0px">
+        <b>S&nbsp;&nbsp;A&nbsp;&nbsp;G&nbsp;&nbsp;I&nbsp;&nbsp;P</b></p>
+        <div class="alert alert-dismissable alert-info col-lg-2">
+		  		<img src="{% static 'sagip_main/img/win8.png' %} " width="150px" height="150px">
+		</div>
+<div align="center">
+	    <p style="font-size:60px">JOIN THE&nbsp;&nbsp;<strong><b style="font-color:red;">S A G I P</b></strong>&nbsp;&nbsp;CAMPAIGN</p>
+	  </div>
+	  </div>
+	  <div class="clearfloats"></div>
+	  <div id="body-divider"></div><!-- the division between the light green content section, and the dark -->
+	  <div id="content2" class="form-box">
+	    <div class="content-padding">
+		  <!-- content blocks (three side by side), can remove if needed, this was just an example -->
+		  <div class="content2-block" align="center" >
+		 	<table >
+		 		<tr>
+		 			<td>
+		 			<p><img class="box-icon shadow-div"  src="{% static 'sagip_main/img/tarsier.jpg' %}" width="248" height="185" alt="" /></p>
+		    <p>
+		      <input name="like1" type="submit" class="inputstyle1" id="like1" value="Submit" width="100" height="100%" />
+		      <input name="unlike1" type="submit" class="inputstyle1Copy" id="unlike1" />
+		    </p>
+		 			</td>
+		 			<td><br /></td>
+		 			<td>
+		 			<p><img class="box-icon shadow-div" src="{% static 'sagip_main/img/eagle.jpg' %}" width="245" height="183" alt="" /></p>
+		    <p>
+		      <input name="like1" type="submit" class="inputstyle1" id="like1" value="Submit" width="100" height="100%" />
+		      <input name="unlike1" type="submit" class="inputstyle1Copy" id="unlike1" />
+		    </p>
+		 			</td>
+		 		</tr>
+		 		<tr>
+		 			<td>
+		 				<p><img class="box-icon shadow-div" src="{% static 'sagip_main/img/butanding.jpg' %}" width="244" height="179" alt="" /></p>
+		    <p>
+		      <input name="like1" type="submit" class="inputstyle1" id="like1" value="Submit" width="100" height="100%" />
+		      <input name="unlike1" type="submit" class="inputstyle1Copy" id="unlike1" />
+		    </p>
+		 			</td>
+		 			<td><br /></td>
+		 			<td>
+		 				<p><img class="box-icon  shadow-div" src="{% static 'sagip_main/img/pawikan.jpg' %}" width="257" height="192" alt="" /></p><p>
+		      <input name="like1" type="submit" class="inputstyle1" id="like1" value="Submit" width="100" height="100%" />
+		      <input name="unlike1" type="submit" class="inputstyle1Copy" id="unlike1" />
+		    </p>
+		 			</td>
+		 		</tr>
+		 		<tr>
+		 			<td><p>
+		 			<img class-="box-icon shadow-div" src="{% static 'sagip_main/img/Elephant.jpg' %}" width="248" height="176" alt="" /></p>
+                <p>
+		      <input name="like1" type="submit" class="inputstyle1" id="like1" value="Submit" width="100" height="100%" />
+		      <input name="unlike1" type="submit" class="inputstyle1Copy" id="unlike1" />
+		    </p>
+		 			</td>
+		 			<td><br /></td>
+		 			<td>
+		 			<p><img class="box-icon  shadow-div" src="{% static 'sagip_main/img/rafflesia.jpg' %}" width="259" height="176" alt="" /></p><p>
+		      <input name="like1" type="submit" class="inputstyle1" id="like1" value="Submit" width="100" height="100%" />
+		      <input name="unlike1" type="submit" class="inputstyle1Copy" id="unlike1" />
+		    </p>
+		 			</td>
+		 		</tr>
+		 	</table>
+		  </div>
+		  <div class="content-divider"></div>
+		  <div class="content2-block">
+		    <p>&nbsp;</p>
+		    
+		    <p>&nbsp;</p>
+		    
+		    <p>&nbsp;</p>
+		    <p>&nbsp;</p>
+		    
+		  </div>
+		  <div class="content-divider"></div>
+		  
+			
+		  <!-- end content blocks -->
+		  </div>
+		  <div class="well">
+		  <div class="alert alert-dismissable alert-info">
+  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong>Mechanics</strong>: Look for the QR codes in the designaMechanics: Look for the QR codes in the designated locations where these endangered flora and fauna  are found. Evaluate  their conditions and help save these  species from extinction. Join the  SAGIP CAMPAIGN!ted locations where these endangered flora and fauna  are found. Evaluate  their conditions and help save these  species from extinction. Join the  SAGIP CAMPAIGN!
+</div>
+		  </div>
+		  </div>
+		</div>
+      </div>
+	  <div id="footer-div"></div>
+	  
+	</div>
+	<script src="{% static 'sagip_main/js/bootstrap.min.js' %}" type="text/javascript">
+</script>
+  </body>
+</html>

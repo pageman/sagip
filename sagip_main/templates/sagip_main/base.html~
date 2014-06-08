@@ -160,6 +160,7 @@ function init() {
 		          <li><a href="{% url 'climate' %}">Climate</a></li>
 		          <li><a href="{% url 'infra' %}">Infrastructure</a></li>
 		          <li ><a href="{% url 'disaster' %}">Disaster Response and Management</a></li>
+		          <li ><a href="{% url 'disaster' %}">Tourism and Biodiversity</a></li>
 		    	</ul>
 		    </li>
 		    <li><a href="#siteinfo">Info</a></li>

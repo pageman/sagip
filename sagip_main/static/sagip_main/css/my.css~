@@ -207,3 +207,16 @@ border-bottom-right-radius: 68px;
 
 }
 
+.sortable tr:hover {
+    cursor: pointer;
+}
+
+.my-box{
+-moz-border-radius-topleft: 65px;
+-webkit-border-top-left-radius: 65px;
+ border-top-left-radius: 65px;
+-moz-border-radius-bottomright: 68px;
+-webkit-border-bottom-right-radius: 68px;
+border-bottom-right-radius: 68px;
+
+}

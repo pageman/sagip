@@ -146,3 +146,31 @@ def disaster(request):
 				}
 #	return render(request, 'sagip_main/index.html', context)
 	return render_to_response('sagip_main/disaster.html', context, RequestContext(request))
+
+def turismo(request):
+	layers, layer_names = get_layers_by_name()
+	context = {
+				'date_now':time.strftime('%A, %d %B %Y'),
+				'request':request,
+				'user':request.user,
+				'tabinfos':TabInfo.objects.all(),
+				'points': DataBits.objects.all(),
+				'layers': layers,
+				'layer_names': layer_names,
+				}
+#	return render(request, 'sagip_main/index.html', context)
+	return render_to_response('sagip_main/turismo.html', context, RequestContext(request))
+
+def game(request, page_id):
+	layers, layer_names = get_layers_by_name()
+	context = {
+				'date_now':time.strftime('%A, %d %B %Y'),
+				'request':request,
+				'user':request.user,
+				'tabinfos':TabInfo.objects.all(),
+				'points': DataBits.objects.all(),
+				'layers': layers,
+				'layer_names': layer_names,
+				}
+#	return render(request, 'sagip_main/index.html', context)
+	return render_to_response('sagip_main/15.html', context, RequestContext(request))

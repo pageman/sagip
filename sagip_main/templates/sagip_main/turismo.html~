@@ -38,15 +38,13 @@
    <script src="{% static 'sagip_main/js/jquery.spritely.js' %}" type="text/javascript"></script>
    <script src="{% static 'sagip_main/js/leaflet.awesome-markers.min.js' %}"></script>
    <script src="{% static 'sagip_main/js/Leaflet.Coordinates-0.1.3.min.js' %}" type="text/javascript"></script>
-   
    <script src="{% static 'sagip_main/data/exp_100yrisohyetsutm51.js' %}"></script>
    <script src="{% static 'sagip_main/data/exp_10yrisohyetsutm51.js' %}"></script>
 	<script src="{% static 'sagip_main/data/exp_25yrisohyetsutm51.js' %}"></script>
  	<script src="{% static 'sagip_main/data/exp_2yrisohyetsutm51.js' %}"></script>
 	<script src="{% static 'sagip_main/data/exp_50yrisohyetsutm51.js' %}"></script>
 	<script src="{% static 'sagip_main/data/exp_5yrisohyetsutm51.js' %}"></script>
-	<script src="{% static 'sagip_main/data/exp_Provinces.js' %}"></script>
-	
+   <script src="{% static 'sagip_main/data/exp_Provinces.js' %}"></script>
    
    <script type="text/javascript">
           $(document).ready(function() {
@@ -218,7 +216,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
 					//add comment sign to hide this layer on the map in the initial view.
 					exp_5yrisohyetsutm51JSON.addTo(map);
 					
-			function pop_Provinces(feature, layer) {
+		function pop_Provinces(feature, layer) {
 				var popupContent = feature.properties.html_exp;
 				layer.bindPopup(popupContent);
 			}
@@ -231,6 +229,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
 							fillOpacity: feature.properties.transp_fill_qgis2leaf};
 					}
 				});
+		
 			
 					//add comment sign to hide this layer on the map in the initial view.
 					exp_ProvincesJSON.addTo(map);
@@ -240,7 +239,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
     //controls
     var layerControl = L.control.layers(
     		{//base layers
-    			"Base": stamen.addTo(map)
+    			"Base Map": stamen
     			},
     		{ //these are the checkbox layers
     			{% for layer_name in layer_names %}
@@ -268,7 +267,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
 						position: 'bottomright'
 		
 						}).addTo(map)
-   	var coordControl = L.control.coordinates({
+    var coordControl = L.control.coordinates({
         			crs: L.CRS.EPSG4326,
     				position:"bottomleft", //optional default "bootomright"
     				decimals:2, //optional default 4
@@ -279,29 +278,6 @@ function pop_100yrisohyetsutm51(feature, layer) {
     				useDMS:false, //optional default false
     				useLatLngOrder: true //ordering of labels, default false-> lng-lat
         }).addTo(map);
-  
-  	//legends
-  	var legend = L.control({position: 'topleft'});  
-    legend.onAdd = function (map) {
-
-    var div = L.DomUtil.create('div', 'info legend'),
-        grades = [50, 100, 150, 200, 250, 300],
-        labels = ['<strong> LEGEND </strong>'],
-        from, to;
-
-    for (var i = 0; i < grades.length; i++) {
-        from = grades [i];
-        to = grades[i+1]-1;
-
-    labels.push(
-        '<i style="background:' + getColor(from + 1) + '"></i> ' +
-        from + (to ? '&ndash;' + to : '+'));
-        }
-        div.innerHTML = labels.join('<br>');
-        return div;
-
-
-        };
   }
 
   </script>
@@ -351,7 +327,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
               		Change Password</a> / 
               	{% endif %} 
               
-              <a href="{% url 'auth:logout' %}?next={{ request.path }}">
+              <a href="{% url 'auth:logout' %}">
               Log Out</a> {% endblock %}
 
               <p><i><small>Today is {{ date_now}}</small></i></p>
@@ -391,111 +367,82 @@ function pop_100yrisohyetsutm51(feature, layer) {
 
 <div class="row"><br /><br /><br /></div>
 	<div class="bs-docs-section">
-        <div class="row" height="500px">
+        <div class="row">
 			<div class="col-lg-8" >
-<!--				<div class="panel panel-default" >-->
-<!--  					<div class="panel-body">-->
-  						<div id="map_small" class="shadow-div map_small" ></div>
-<!--  					</div>-->
-<!--				</div>-->
+<!--				<div id="content2">
+	    <div class="content-padding">
+		  <!-- content blocks (three side by side), can remove if needed, this was just an example -->
+		  <div class="content2-block">
+		    <p>&nbsp;</p>
+		    <p>&nbsp;</p>
+		    <p><img name="" src="images.jpg" width="276" height="440" alt="" /></p>
+		    <p>&nbsp; </p>
+		    <p><img name="" src="" width="278" height="165" alt="" /></p>
+		    <p>&nbsp;</p>
+		    <p>&nbsp;</p>
+		  </div>
+		  <div class="content-divider"></div>
+		  <div class="content2-block">
+		    <p>&nbsp;</p>
+		    <p><img name="" src="tarsier.jpg" width="248" height="185" alt="" /></p>
+		    <p>
+		      <input name="like1" type="submit" class="inputstyle1" id="like1" value="Submit" />
+		      <input name="unlike1" type="submit" class="inputstyle1Copy" id="unlike1" />
+		    </p>
+		    <p>&nbsp;</p>
+		    <p><img name="" src="eagle.jpg" width="245" height="183" alt="" /></p>
+		    <p>&nbsp;</p>
+		    <p>&nbsp;</p>
+		    <p><img name="" src="butanding.jpg" width="244" height="179" alt="" /></p>
+		  </div>
+		  <div class="content-divider"></div>
+		  <div class="content2-block">
+		    <p>&nbsp;            </p>
+			<p><img name="" src="pawikan.jpg" width="257" height="192" alt="" /></p>
+			<p>&nbsp;</p>
+			<div id="subscribe">
+              <form action="yourformmailhere" enctype="multipart/form-data" method="post">
+                <p>&nbsp;</p>
+                <img name="" src="Elephant.jpg" width="248" height="176" alt="" />
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p><img name="" src="rafflesia.jpg" width="259" height="176" alt="" /></p>
+                <p>&nbsp;</p>
+              </form>
+			</div>
 			</div>
 			<div class="panel panel-primary col-lg-4 form-box">
 				<img src="{% static 'sagip_main/img/radar.gif' %}" class="sagip col-lg-offset-2" >
 				<span id="form_panel">S A G I P </span>
-				<div class="panel-body">
+				<div class="panel-body" style="padding-top:1px;">
+						
+						<img src="{% static 'sagip_main/img/Climate.jpg' %}" class="bilog-na-maliit col-lg-offset-3" >
+						<a href="{% url 'climate' %}"><span class="label label-warning">Climate and Geospatial</span></a>
 						<img src="{% static 'sagip_main/img/drought.jpg' %}" class="bilog-na-maliit col-lg-offset-3" >
-						<span class="label label-warning">Climate and Geospatial</span>
-					<form class="form-horizontal" action="{% url 'climate'  %}" method="post">
-						{% csrf_token %}
-						  <fieldset>
-							<div class="form-group">
-								<label   class="col-lg-4 control-label">Temperature:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="temp" name="temp" placeholder="C" >
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="temp_long" id="temp_long" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="temp_lat" id="temp_lat" placeholder="Latitude">
-								</div>
-								
-							</div>
-							<div class="form-group">
-								<label   class="col-lg-4 control-label">Rainfall:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="rain" name="rain" placeholder="mm">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="rain_long" id="rain_long" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="rain_lat" id="rain_lat" placeholder="Latitude">
-								</div>
-								
-							</div>
-							<div class="form-group">
-								<label   class="col-lg-4 control-label">Humidity:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="humid" name="humid" placeholder="Hg">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="humid_long" id="humid_long" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="humid_lat" id="humid_lat" placeholder="Latitude">
-								</div>
-								
-							</div>
-							<div class="form-group">
-								<label   class="col-lg-4 control-label">Typhoon:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 0px 0px 0px 0px;">
-									<input type="text" class="form-control" name="bagyo" id="bagy0" placeholder="Signal" style="padding: 2px 2px 2px 2px;">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="bagyo_long" id="bagyo_long" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="bagyo_lat" id="bagyo_lat" placeholder="Latitude">
-								</div>
-								
-							</div>
-							<div class="form-group">
-								<label   class="col-lg-4 control-label">Tsunami:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" id="tsun" name="tsun" placeholder="Level" style="padding: 2px 2px 2px 2px;">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="tsun_long" id="tsun_long" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="tsun_lat" id="tsun_lat" placeholder="Latitude">
-								</div>
-							</div>
-							<div class="form-group">
-								<label   class="col-lg-4 control-label">Earthquake:&nbsp;&nbsp;&nbsp;</label>
-								<div class="col-lg-2" style="padding: 2px 2px 0 0px;">
-									<input type="text" class="form-control" name="earth" id="earth" placeholder="Intensity" style="padding: 2px 2px 2px 2px;">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="earth_long" id="earth_long" placeholder="Longitude">
-								</div>
-								<div class="col-lg-3" style="padding: 2px 2px 0 2px;">
-									<input type="text" class="form-control" name="earth_lat" id="earth_lat" placeholder="Latitude">
-								</div>
-							<div class="row"></div>
-							<br /><br />
-							 <div class="form-group">
-								  <div class="col-lg-8 col-lg-offset-4">
-								  <a href="#warning" role="button" class="btn btn-danger" data-toggle="modal">Send Calamity Alarm!</a>
-								
-									<button type="submit" class="btn btn-primary">Submit Data</button>
-									
-								  </div>
-								</div>
-							</div>
-						  </fieldset>
-						</form>
+						<a href="{% url 'disaster' %}"><span class="label label-warning">Disaster Response</span></a>
+						<img src="{% static 'sagip_main/img/butanding.jpg' %}" class="bilog-na-maliit col-lg-offset-3" >
+						<a href="{% url 'climate' %}"><span class="label label-warning">Infrastructure</span></a>
+						
+						<table class="table table-striped table-hover">
+							
+							<tr>
+								<td><div><img href="{% static 'sagip_main/img/bangkok.jpg' %}" class="my-box"></div></td>
+								<td><div><img href="{% static 'sagip_main/img/manhatan.jpg' %}" class="my-box"></div></td>
+								<td><div><img href="{% static 'sagip_main/img/tarsier.jpg' %}" class="my-box"></div></td>
+							</tr>
+							<tr>
+								<td class="label_ko">LiKas</td>
+								<td class="label_ko">Heads or Tails</td>
+								<td class="label_ko">Sagip Turismo</td>
+							</tr>
+						</table>
+						
+						<div class="row col-lg-8" >
+							<a href="http://www.chikka.com" ><img src="{% static 'sagip_main/img/chikka.jpg' %}" class="chikka-box"></a></div><div class="col-lg-5" style="margin-left:-5px;padding-right:0px;">
+							<p>It's free to send a text. It's everyone's right. This is a job for Chikka.
+							   Send free text messages to any mobile phones in the Philippines.</p>
+						</div>
+						
 				</div>
 			</div>
 		</div>
@@ -505,44 +452,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
 {% endblock %}
        <hr />
         <br />
-       <div class="row">
        
-       	<div class="col-lg-8 col-lg-offset-2 panel panel-primary form-box">
-       
-       		<table class="table table-striped table-hover ">
-			  <thead>
-				<tr>
-					<th>Indicators</th>
-				  <th>Mean</th>
-				  <th>Min </th>
-				  <th>Max </th>
-				</tr>
-			  </thead>
-			  <tbody>
-				<tr class="info">
-				  <td>Temperature ( in degrees Celsius)</td>
-				  <td>{{temp_mean}}</td>
-				  <td>{{temp_min}}</td>
-				  <td>{{temp_max}}</td>
-				</tr>
-				<tr class="info">
-				  <td>Humidity ( in Hg)</td>
-				  <td>{{humid_mean}}</td>
-
-				  <td>{{humid_min}}</td>
-				  <td>{{humid_max}}</td>
-				</tr>
-				<tr class="info">
-				  <td>Rainfall ( in mm)</td>
-				  <td>{{rain_mean}}</td>
-				
-				  <td>{{rain_min}}</td>
-				  <td>{{rain_max}}</td>
-				</tr>
-			  </tbody>
-			</table> 
-       	</div>
-       </div>
       <div class="row">
         <div class="col-lg-12">
           <br>
@@ -554,45 +464,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
         </div>
       </div>
 </div><!-- /container full -->
-<div class="modal fade" id="warning" name="warning" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title">Government Agencies Directory</h4>
-      </div>
-		  <div class="modal-body ">
-		 <p>
-		  	<table class="table table-striped table-hover sortable col-lg-8" id="main_table" name="main_table">
-			  <thead>
-				<tr>
-					<th>Office</th>
-				  <th>website</th>
-				  <th>Contact Number</th>
-				  
-				</tr>
-			  </thead>
-			  <tbody>
-			  {% for govt in govts %}
-				<tr class="info">
-				  <td>{{govt.office}}</td>
-				  <td>{{govt.website}}</td>
-				  <td>{{govt.number}}</td>
-				  
-				</tr>
-				{% endfor %}
-			  </tbody>
-			</table>
-				</p>
-			<br />
-			<br />
-			<br />
-		  </div>
-		<div class="modal-footer">
-		</div>
-    </div>
-  </div>
-</div>
+
  
 </script> <script src="{% static 'sagip_main/js/bootstrap.min.js' %}" type="text/javascript">
 </script>
