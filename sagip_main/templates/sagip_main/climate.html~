@@ -33,7 +33,7 @@
    <script type="text/javascript" src="{% static 'sagip_main/js/jquery.min.js' %}"></script>
    <script type="text/javascript" src="{% static 'sagip_main/js/jquery.spritely.js' %}"></script>
    <script type="text/javascript" src="{% static 'sagip_main/js/l.ellipse.js' %}"></script>
-   <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.4"></script>
+<!--   <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.2.4"></script>-->
    <script src="{% static 'sagip_main/js/leaflet.label.js' %}" type="text/javascript"></script>
    <script src="{% static 'sagip_main/js/jquery.spritely.js' %}" type="text/javascript"></script>
    <script src="{% static 'sagip_main/js/leaflet.awesome-markers.min.js' %}"></script>
@@ -62,7 +62,7 @@
 function init() {
            
   //      var stamen = new L.StamenTileLayer("toner-lite");
-        var stamen = new L.StamenTileLayer("watercolor");
+   //     var stamen = new L.StamenTileLayer("watercolor");
         
   //      var myLayer = new L.TileLayer.WMS("http://localhost/cgi-bin/qgis_mapserv.fcgi", {
   //              map: "/usr/lib/cgi-bin/test/test.qgs",
@@ -70,7 +70,12 @@ function init() {
   //              format: 'image/png',
   //              transparent: 'TRUE',
   //      });
-        
+  // create the tile layer with correct attribution
+	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+	var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+	var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 12, attribution: osmAttrib});		
+
+	
         var map = new L.Map("map_small", {
                 center: new L.LatLng(13.00,121.41),
                 zoom: 5,
@@ -78,9 +83,13 @@ function init() {
                 crs: L.CRS.EPSG4326,
                 maxZoom: 18,
                 attributionControl:false,
-                layers: [stamen],
+                layers: [osm],
                 zoomControl: false
         });
+        
+        // start the map in South-East England
+	map.setView(new L.LatLng(13.00,121.41),9);
+	map.addLayer(osm);
         
         
         //var ellipse = L.ellipse([14.25,121.41], [500, 500], 900).addTo(map);
@@ -240,7 +249,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
     //controls
     var layerControl = L.control.layers(
     		{//base layers
-    			"Base": stamen.addTo(map)
+    			"Base": osm.addTo(map)
     			},
     		{ //these are the checkbox layers
     			{% for layer_name in layer_names %}
@@ -486,6 +495,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
 							<div class="row"></div>
 							<br /><br />
 							 <div class="form-group">
+							 <a href="http://www.chikka.com" ><img src="{% static 'sagip_main/img/chikka.jpg' %}" class="chikka-box"></a></div><div class="col-lg-5" style="margin-left:-5px;padding-right:0px;">
 								  <div class="col-lg-8 col-lg-offset-4">
 								  <a href="#warning" role="button" class="btn btn-danger" data-toggle="modal">Send Calamity Alarm!</a>
 								

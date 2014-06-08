@@ -11,6 +11,7 @@ from sagip.processor import *
 from sagip.analytics import *
 import urllib
 import urllib2
+import random
 
 # Create your views here.
 def home(request):
@@ -181,11 +182,11 @@ def send_sms(request):
 	if request.user.is_authenticated():
 		msg = request.POST['msg']
 		num = request.POST['num']
-
+		
 		post_data = [('message_type','SEND'),
-					('mobile_number',str(num)),
+					('mobile_number','639055541112'),
 					('shortcode','29290718255'),
-					('message_id','111test111'),
+					('message_id','kgkjgbkgsdlh'),
 					('message',str(msg)),
 					('client_id','a4382ae2034d604f2539dc0f60e1a0425cac96ea59c1a9bc3e7139ba28019277'),
 					('secret_key','5661810d0cd4bb8dee44b9dfce5e63b92680ed599485e547ca0117162b316aab'),
@@ -196,4 +197,23 @@ def send_sms(request):
 	else:
 		return render_to_response('sagip_main/not_authorized.html', {'reply':'reply'}, RequestContext(request))	
 #	return render(request, 'sagip_main/index.html', context)
+
+
+def send_alarm(request):
+	if request.user.is_authenticated():
 	
+		msg_id = random.random()
+		post_data = [('message_type','SEND'),
+					('mobile_number','639055541112'),
+					('shortcode','29290718255'),
+					('message_id','1234325dfggjd'),
+					('message','Alarm triggered by web app'),
+					('client_id','a4382ae2034d604f2539dc0f60e1a0425cac96ea59c1a9bc3e7139ba28019277'),
+					('secret_key','5661810d0cd4bb8dee44b9dfce5e63b92680ed599485e547ca0117162b316aab'),
+					]     # a sequence of two element tuples
+		result = urllib2.urlopen('http://post.chikka.com/smsapi/request', urllib.urlencode(post_data))
+		content = result.read()
+		return render_to_response('sagip_main/reply.html', {'chikka_reply':content,}, RequestContext(request))
+	else:
+		return render_to_response('sagip_main/not_authorized.html', {'reply':'reply'}, RequestContext(request))	
+#	return render(request, 'sagip_main/index.h

@@ -1,6 +1,14 @@
 <html>
-<body>
-
-{{content}}
-</body>
+    <head>
+        <meta http-equiv="refresh" content="10;url=http://192.168.43.168:8000/" />
+    </head>
+    <body>
+    	<h3>You have succesfully sent the Calamity Alarm.</h3>
+        <h1>We will now redirect you after 10 seconds, to our home page to continue using our awesome web app.</h1>
+        
+        
+        <p>
+        This service is brought to you by <a href="http://www.chikka.com">Chikka! </a>
+        </p>
+    </body>
 </html>
