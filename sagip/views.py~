@@ -9,6 +9,8 @@ from sagip_main.models import TabInfo, DataBits, Contact
 from sagip.layers import get_layers_by_name
 from sagip.processor import *
 from sagip.analytics import *
+import urllib
+import urllib2
 
 # Create your views here.
 def home(request):
@@ -109,7 +111,7 @@ def climate(request):
 	context['govts']=Contact.objects.all()
 	
 	
-	context['temp_mean'] = get_stats('temp')['temp_mean'] 
+	context['temp_mean'] = get_stats('temp')['temp_mean']['value__avg'] 
 #	context['temp_var'] = get_stats('temp')['temp_var']
 	context['temp_min'] = get_stats('temp')['temp_min']
 	context['temp_max'] = get_stats('temp')['temp_max']
@@ -173,4 +175,25 @@ def game(request, page_id):
 				'layer_names': layer_names,
 				}
 #	return render(request, 'sagip_main/index.html', context)
-	return render_to_response('sagip_main/turismo.html', context, RequestContext(request))
+	return render_to_response('sagip_main/15.html', context, RequestContext(request))
+	
+def send_sms(request):
+	if request.user.is_authenticated():
+		msg = request.POST['msg']
+		num = request.POST['num']
+
+		post_data = [('message_type','SEND'),
+					('mobile_number',str(num)),
+					('shortcode','29290718255'),
+					('message_id','111test111'),
+					('message',str(msg)),
+					('client_id','a4382ae2034d604f2539dc0f60e1a0425cac96ea59c1a9bc3e7139ba28019277'),
+					('secret_key','5661810d0cd4bb8dee44b9dfce5e63b92680ed599485e547ca0117162b316aab'),
+					]     # a sequence of two element tuples
+		result = urllib2.urlopen('http://post.chikka.com/smsapi/request', urllib.urlencode(post_data))
+		content = result.read()
+		return render_to_response('sagip_main/reply.html', {'chikka_reply':content,}, RequestContext(request))
+	else:
+		return render_to_response('sagip_main/not_authorized.html', {'reply':'reply'}, RequestContext(request))	
+#	return render(request, 'sagip_main/index.html', context)
+	

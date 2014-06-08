@@ -243,7 +243,7 @@ function pop_100yrisohyetsutm51(feature, layer) {
     			},
     		{ //these are the checkbox layers
     			{% for layer_name in layer_names %}
-    				"{{layer_name}}": {{layer_name }}.addTo(map),
+    				"{{layer_name}}": {{layer_name }},
     			{% endfor %}
     			'Provinces':exp_ProvincesJSON,
     			'Rainfall 2-yr aggregate':exp_2yrisohyetsutm51JSON,
@@ -521,6 +521,53 @@ function pop_100yrisohyetsutm51(feature, layer) {
 </script> <script src="{% static 'sagip_main/js/bootstrap.min.js' %}" type="text/javascript">
 </script>
   </div>
- 
+ <div class="modal fade" id="warning" name="warning" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Government Agencies Directory</h4>
+      </div>
+		  <div class="modal-body ">
+		 <p>
+		 <label>Type your message here:</label>
+		 <form class="navbar-form navbar-left" action="{% url 'send_sms' %}" method="post">
+      			<input type="text" class="form-control col-lg-8" placeholder="Message" id="msg" name="msg">
+      			<input type="text" class="form-control col-lg-8" placeholder="Receiver number" id="num" name="num">
+    			<div class="col-lg-4 col-lg-offset-2">
+						<button type="submit" class="btn btn-primary">Send SMS</button>
+				</div>
+    	</form>
+    	
+		  	<table class="table table-striped table-hover sortable col-lg-8" id="main_table" name="main_table">
+			  <thead>
+				<tr>
+					<th>Office</th>
+				  <th>website</th>
+				  <th>Contact Number</th>
+				  
+				</tr>
+			  </thead>
+			  <tbody>
+			  {% for govt in govts %}
+				<tr class="info">
+				  <td>{{govt.office}}</td>
+				  <td>{{govt.website}}</td>
+				  <td>{{govt.number}}</td>
+				  
+				</tr>
+				{% endfor %}
+			  </tbody>
+			</table>
+				</p>
+			<br />
+			<br />
+			<br />
+		  </div>
+		<div class="modal-footer">
+		</div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
