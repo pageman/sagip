@@ -55,6 +55,9 @@ class DataBits (models.Model):
 	contrib_user = models.ForeignKey(User)
 #	time_added = models.DateField('Date Added', blank=False, null=False)
 	
+	def get_value(self):
+		return self.value
+		
 	def get_map_label(self):
 		if value:
 			return self.value
@@ -80,5 +83,23 @@ class Provinces (models.Model):
 	perimeter = models.DecimalField(max_digits=10, decimal_places=6)		
 	geo_lat = models.DecimalField(max_digits=10, decimal_places=6)
 	geo_long = models.DecimalField(max_digits=10, decimal_places=6)
+#	contrib_user = models.ForeignKey(User)
+
+
+class Contact(models.Model):
+
+	def __unicode__(self,):
+		return self.office
+	
+	class Meta:
+		verbose_name = 'contact'
+		verbose_name_plural = 'contacts'
+	
+	office = models.CharField(max_length=150,
+							)
+	website = models.CharField(max_length=150,
+							)
+	number = models.CharField(max_length=150,
+							)
 #	contrib_user = models.ForeignKey(User)
 

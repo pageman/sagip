@@ -83,7 +83,7 @@ function init() {
     .bindLabel('1976 Tsunami', { noHide: true });
     
     // Creates a red marker with the coffee icon
-  var temperatureMarker = L.AwesomeMarkers.icon({
+  var tempMarker = L.AwesomeMarkers.icon({
     icon: 'flag',
     markerColor: 'red'
   });
@@ -137,7 +137,7 @@ function init() {
   <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="{% url 'home' %}">Saaaa Ggggg Iiiii Ppppp</a>
+        <a class="navbar-brand" href="{% url 'home' %}" id="form_panel" style="margin-top:-10px;">S A G I P</a>
       </div>
 
       <div class="navbar-collapse collapse navbar-responsive-collapse">

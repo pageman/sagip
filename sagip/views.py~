@@ -5,9 +5,10 @@ from django.core.urlresolvers import reverse
 from datetime import date
 from django.template import loader, Context, RequestContext
 import time
-from sagip_main.models import TabInfo, DataBits
+from sagip_main.models import TabInfo, DataBits, Contact
 from sagip.layers import get_layers_by_name
 from sagip.processor import *
+from sagip.analytics import *
 
 # Create your views here.
 def home(request):
@@ -105,6 +106,23 @@ def climate(request):
 	layers, layer_names = get_layers_by_name()
 	context['layers']=layers
 	context['layer_names']=layer_names
+	context['govts']=Contact.objects.all()
+	
+	
+	context['temp_mean'] = get_stats('temp')['temp_mean'] 
+	context['temp_var'] = get_stats('temp')['temp_var']
+	context['temp_min'] = get_stats('temp')['temp_min']
+	context['temp_max'] = get_stats('temp')['temp_max']
+	context['humid_mean'] = get_stats('humid')['humid_mean'] 
+	context['humid_var'] = get_stats('humid')['humid_var']
+	context['humid_min'] = get_stats('humid')['humid_min']
+	context['humid_max'] = get_stats('humid')['humid_max']
+	context['rain_mean'] = get_stats('rain')['rain_mean'] 
+	context['rain_var'] = get_stats('rain')['rain_var']
+	context['rain_min'] = get_stats('rain')['rain_min']
+	context['rain_max'] = get_stats('rain')['rain_max']
+	
+	
 	return render_to_response('sagip_main/climate.html', context, RequestContext(request))
 	
 def infra(request):

@@ -33,7 +33,7 @@ def get_layers_by_name():
 				temp_point = "L.marker(["+str(point.geo_lat)+","+str(point.geo_long)+"],{icon:"+icon+"}).bindLabel('"+str(point.unit)+"', { noHide: true })"
 			layer += temp_point+","
 
-		layer += "]);"
+		layer += "]).addTo(map);"
 		layers += layer
 
 	return mark_safe(layers), layer_names

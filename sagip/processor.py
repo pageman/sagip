@@ -21,7 +21,7 @@ def process_climate(request):
 			unit = 'C'
 			point = DataBits.objects.create(category=category,
 										name=name,
-										value=value+" "+unit,
+										value=value,
 										unit=unit,
 										geo_lat=geo_lat,
 										geo_long=geo_long,
@@ -35,7 +35,7 @@ def process_climate(request):
 			unit = 'Hg'
 			point = DataBits.objects.create(category=category,
 										name=name,
-										value=value+" "+unit,
+										value=value,
 										unit=unit,
 										geo_lat=geo_lat,
 										geo_long=geo_long,
@@ -49,7 +49,7 @@ def process_climate(request):
 			unit = 'Signal'
 			point = DataBits.objects.create(category=category,
 										name=name,
-										value=value+" "+unit,
+										value=value,
 										unit=unit,
 										geo_lat=geo_lat,
 										geo_long=geo_long,
@@ -64,7 +64,7 @@ def process_climate(request):
 			
 			point = DataBits.objects.create(category=category,
 										name=name,
-										value=value+" "+unit,
+										value=value,
 										unit=unit,
 										geo_lat=geo_lat,
 										geo_long=geo_long,
@@ -78,7 +78,7 @@ def process_climate(request):
 			unit = 'Intensity'
 			point = DataBits.objects.create(category=category,
 										name=name,
-										value=value+" "+unit,
+										value=value,
 										unit=unit,
 										geo_lat=geo_lat,
 										geo_long=geo_long,
@@ -90,7 +90,7 @@ def process_climate(request):
 					'user':request.user,
 					'tabinfos':TabInfo.objects.all(),
 					'points': DataBits.objects.all(),
-					'data_names':DataBits.objects.all(),
+					'data_names':DataBits.objects.filter().values('name'),
 					}
 
 		return context

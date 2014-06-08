@@ -162,6 +162,7 @@ function init() {
 		          <li ><a href="{% url 'disaster' %}">Disaster Response and Management</a></li>
 		    	</ul>
 		    </li>
+		    <li><a href="#siteinfo">Info</a></li>
 		 </ul>
         {% if not_user %}
 			<div class="alert alert-dismissable alert-danger alert-message col-lg-4">
@@ -227,17 +228,23 @@ function init() {
         <br>
         <br>
       </div><!-- /container full -->
-
+<a name="siteinfo"></a>
       <div class="container" id="siteinfo">
+ 
         <hr>
 
         <div class="row">
           {% for tabinfo in tabinfos %}
-		      <div class="col-md-4">
+		      <div class="col-md-6">
 		        <div class="panel panel-default" id="shadow-div">
 		          <div class="panel-heading">
 		            <h3>{{tabinfo.title}}</h3>
 		          </div>
+		          {% if tabinfo.name == 'site statistics' %}
+		          		Number of visitors: {{numVisitors}}
+		          {% else %}
+		          	<img src="static/sagip_main/img/{{tabinfo.name}}.jpg"  class="col-md-4">
+		          {% endif %}
 		          <div class="panel-body text-info">
 		            {{tabinfo.text}}
 		          </div>

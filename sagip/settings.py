@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sagip_main',
-##    'sagip_auth',
+	'csvimport',
 #    'app',
     'social.apps.django_app.default',
     
